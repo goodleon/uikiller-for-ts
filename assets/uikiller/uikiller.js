@@ -35,7 +35,7 @@ const UIKiller = {
 
     /**
      * 获取组件名字
-     * @param {cc.Component} component 
+     * @param {cc.Component} component
      */
     _getComponentName(component) {
         return component.name.match(/<.*>$/)[0].slice(1, -1);
@@ -43,19 +43,19 @@ const UIKiller = {
 
     /**
      * 绑定组件
-     * @param {cc.Component} component  要绑定的组件 
+     * @param {cc.Component} component  要绑定的组件
      * @param {Object} options          绑定选项
-     */    
+     */
     bindComponent(component, options) {
         component.$options = options || {};
-    
+
         let root = component.node;
         root._components.forEach((nodeComponent) => {
             let name = this._getComponentName(nodeComponent);
             name = `$${name}`;
             root[name] = nodeComponent;
         });
-        
+
         //绑定根节点触摸事件
         this._bindTouchEvent(root, component, DEFAULT_EVENT_NAMES);
         //绑定所有组件子节点
@@ -83,9 +83,9 @@ const UIKiller = {
                 delete target[key];
             });
         }
-        
+
         //初始化收集器
-        target.$collector = { node };
+        target.$collector = {node};
         //遍历根节点上的组件并绑定到target
         node._components.forEach((component) => {
             let name = this._getComponentName(component);
@@ -93,7 +93,7 @@ const UIKiller = {
             target[name] = component;
             target.$collector[name] = component;
         });
-        
+
         //开始绑定节点
         this._bindStartByPlugins(node, target);
         this._bindNode(node, target);
@@ -102,8 +102,8 @@ const UIKiller = {
 
     /**
      * 执行插件onBindStart事件
-     * @param {cc.Node} node 
-     * @param {Object} target 
+     * @param {cc.Node} node
+     * @param {Object} target
      */
     _bindStartByPlugins(node, target) {
         this._plugins.forEach((plugin) => {
@@ -115,8 +115,8 @@ const UIKiller = {
 
     /**
      * 执行插件onBindEnd事件
-     * @param {cc.Node} node 
-     * @param {Object} target 
+     * @param {cc.Node} node
+     * @param {Object} target
      */
     _bindEndByPlugins(node, target) {
         this._plugins.forEach((plugin) => {
@@ -128,8 +128,8 @@ const UIKiller = {
 
     /**
      * 递归绑定节点
-     * @param {cc.Node} nodeObject 
-     * @param {Object} target 
+     * @param {cc.Node} nodeObject
+     * @param {Object} target
      */
     _bindNode(nodeObject, target) {
         const node = nodeObject;
@@ -138,7 +138,7 @@ const UIKiller = {
         if (node.name[0] === this._prefix) {
             node._components.forEach((component) => {
                 let name = this._getComponentName(component);
-                
+
                 name = `$${name}`;
                 if (node[name] && target.$options.debug) {
                     cc.warn(`${name} property is already exists`);
@@ -150,7 +150,7 @@ const UIKiller = {
                 if (UIKiller.isFunction(component.onBind)) {
                     component.onBind(target);
                 }
-                
+
                 if (component instanceof Thor) {
                     //判定是否将要自行绑定的节点
                     if (!isBindNode && component !== target) {
@@ -169,7 +169,7 @@ const UIKiller = {
         if (!bool || isBindNode) {
             return;
         }
-        
+
         node.children.forEach((child) => {
             let name = child.name;
             if (name[0] === this._prefix) {
@@ -208,8 +208,8 @@ const UIKiller = {
 
     /**
      * 绑定触摸事件
-     * @param {cc.Node} node 
-     * @param {String} event 
+     * @param {cc.Node} node
+     * @param {String} event
      */
     _getTouchEventName(node, event) {
         let name = node.$eventName || node.name;
@@ -259,7 +259,7 @@ const UIKiller = {
                 if (eventNode.interactable === false || eventNode.active === false) {
                     return;
                 }
-                
+
                 //检查button组件是否有事件处理函数，有则执行插件事件处理
                 const button = eventNode.getComponent(cc.Button);
                 if (button && button.interactable === false) {
@@ -271,7 +271,7 @@ const UIKiller = {
                 if (isValidEvent) {
                     this._beforeHandleEventByPlugins(eventNode, event, !!eventFunc);
                 }
-                
+
                 //执行事件函数，获取返回值
                 let eventResult;
                 if (eventFunc) {
@@ -373,7 +373,7 @@ const UIKiller = {
     },
 };
 
-UIKiller.isFunction = function(value) {
+UIKiller.isFunction = function (value) {
     return typeof value === 'function';
 };
 

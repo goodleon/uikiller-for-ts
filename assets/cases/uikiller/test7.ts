@@ -3,6 +3,9 @@ const { ccclass } = cc._decorator;
 
 @ccclass
 export default class Test7 extends Thor {
+    private _log: any;
+    private _number: any;
+    private _stencil: any;
    
     random(max, min) {
         return Math.floor(Math.random() * (max - min + 1) + min);
@@ -28,4 +31,4 @@ export default class Test7 extends Thor {
         this._log.$Label.string = `点击区域无效`;
         this._log.runAction(cc.blink(1, 6));
     }
-});
+}

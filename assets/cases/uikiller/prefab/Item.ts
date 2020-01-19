@@ -1,11 +1,13 @@
 import Thor from '../../../uikiller/Thor'
-const { ccclass, property } = cc._decorator;
+
+const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class Item extends Thor {
     protected useController: Boolean = true;
     protected controllerName: String = 'ItemController';
-  
+    private _label: any;
+
     @property
     get string() {
         if (this._label) {
@@ -15,7 +17,9 @@ export default class Item extends Thor {
     }
 
     set string(value) {
-        this._label.$Label.string = value;  
+        if(this._label){
+            this._label.$Label.string = value;
+        }
     }
 
     onLoad() {
@@ -25,7 +29,8 @@ export default class Item extends Thor {
     //绑定控件器
     bindController() {
         if (this.useController && this.controllerName) {
-            let { controller } = require(this.controllerName);
+            // @ts-ignore
+            let {controller} = require(this.controllerName);
             controller.onRegister(this);
         }
     }

@@ -1,21 +1,23 @@
 import Thor from '../../uikiller/Thor';
-const { ccclass } = cc._decorator;
+
+const {ccclass} = cc._decorator;
 
 @ccclass
 export default class Test6 extends Thor {
     _button3: cc.Node = null;
     _log: cc.Node = null;
+
     // use this for initialization
-    onLoad () {
-        this._button3.tagIndex = 0;  
+    onLoad() {
+        this._button3.tagIndex = 0;
     }
 
     _onAttackTouchEnd() {
-        this._log.$Label.string = '你点击了战斗';    
+        this._log.$Label.string = '你点击了战斗';
     }
 
     _onExpeditionTouchEnd() {
-        this._log.$Label.string = '你点击了出征';    
+        this._log.$Label.string = '你点击了出征';
     }
 
     _onRandomTouchEnd() {

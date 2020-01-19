@@ -6,6 +6,12 @@ const { ccclass } = cc._decorator;
 
 @ccclass
 export default class Test9 extends Thor {
+    private _lastDistance: null;
+    private _count: number;
+    private _label: any;
+    private _closeDrag: boolean;
+    private _firstPoint: any;
+    private _layout: any;
 
     _onLayoutTouchStart(sender, event) {
         this._lastDistance = null;
@@ -36,6 +42,7 @@ export default class Test9 extends Thor {
             }
             
             //cc.log(distance, this._lastDistance);
+            // @ts-ignore
             let dt = (distance - this._lastDistance) * 0.01;
             this._onLayoutTouchZoom(sender, dt, this._firstPoint);
             this._lastDistance = distance;
@@ -57,4 +64,4 @@ export default class Test9 extends Thor {
     }
 
     // update (dt) {}
-});
+}

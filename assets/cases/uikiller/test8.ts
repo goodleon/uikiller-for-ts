@@ -3,6 +3,7 @@ const { ccclass } = cc._decorator;
 
 @ccclass
 export default class Test8 extends Thor {
+    private _item1: any;
     onLoad() {
         cc.log(this.name, ',onLoad');
         this._item1.$Item.string = '显示这个';

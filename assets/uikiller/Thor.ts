@@ -1,13 +1,14 @@
-const { ccclass, executeInEditMode } = cc._decorator;
+const {ccclass, executeInEditMode} = cc._decorator;
 @ccclass
 @executeInEditMode
 export default class Thor extends cc.Component {
-    
+
     protected useController: Boolean = false;
     protected controllerName: String = '';
 
     _bindHammer: Boolean = false;
     $controller: Object = null;
+    private __classname__: any;
 
     __preload() {
         this.bindHammer();
@@ -28,7 +29,7 @@ export default class Thor extends cc.Component {
         let start = Date.now();
         let options = this.getOptions();
         uikiller.bindComponent(this, options);
-       
+
         //关联逻辑控制器
         this.bindController();
 

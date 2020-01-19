@@ -25,7 +25,7 @@ const LANGUAGE_TABLE = {
     '1': 'hello',
     '2': 'wrold',
 }
-const UIKillerLabelLanguage = {  
+const UIKillerLabelLanguage = {
     name: 'UIKillerLabelLanguage',
     onCheckNode(node, target) {
         let label = node.getComponent(cc.Label);
@@ -42,23 +42,23 @@ const UIKillerLabelLanguage = {
 
 const SOUND_CONFIG = {
     _attack: '3002',
-    _expedition: '3006', 
-    click: 'click',      
+    _expedition: '3006',
+    click: 'click',
 }
 const UIKillerTouchSound = {
-    name:'UIKillerTouchSound',
+    name: 'UIKillerTouchSound',
     /**
-     * 
-     * @param {*} node 
-     * @param {*} event 
-     * @param {*} hasEventFunc 
-     * @param {*} eventResult 
+     *
+     * @param {*} node
+     * @param {*} event
+     * @param {*} hasEventFunc
+     * @param {*} eventResult
      */
     onAfterHandleEvent(node, event, hasEventFunc, eventResult) {
         if (event.type !== cc.Node.EventType.TOUCH_END || eventResult === false) {
             return;
         }
-        
+
         let soundName = SOUND_CONFIG[eventResult] || SOUND_CONFIG[node.name] || SOUND_CONFIG.click;
         //let url = cc.url.raw(`resources/sound/${soundName}`);
         //cc.audioEngine.play(url);

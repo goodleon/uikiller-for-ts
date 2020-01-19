@@ -1,4 +1,3 @@
-
 class ItemController {
     views: Array<any> = [];
     name: 'ItemController';
@@ -17,4 +16,4 @@ class ItemController {
 
 let controller: ItemController = new ItemController();
 
-export { controller };
+export {controller};

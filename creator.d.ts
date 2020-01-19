@@ -2898,7 +2898,8 @@ declare namespace cc {
 		     “scenes” 当前包中可用场景。                                                   <br/>
 		<br/>
 		注意：请不要直接修改这个对象，它不会有任何效果。 */
-		config: any;		
+		config: any;
+		_sceneInfos: any;		
 		/**
 		!#en Callback when the scripts of engine have been load.
 		!#zh 当引擎完成启动后的回调函数。 
@@ -3104,7 +3105,9 @@ declare namespace cc {
 		zIndex 的取值应该介于 cc.macro.MIN_ZINDEX 和 cc.macro.MAX_ZINDEX 之间
 		父节点主要根据节点的 zIndex 和添加次序来排序，拥有更高 zIndex 的节点将被排在后面，如果两个节点的 zIndex 一致，先添加的节点会稳定排在另一个节点之前。<br/>
 		节点在 children 中的顺序决定了其渲染顺序。父节点永远在所有子节点之前被渲染 */
-		zIndex: number;		
+		zIndex: number;
+		tagIndex: any;
+		$Label: any;
 		/**
 		
 		@param name name 
@@ -15819,6 +15822,10 @@ declare namespace cc {
 			INITIAL_CAPS_ALL_CHARACTERS = 0,
 			DEFAULT = 0,		
 		}	
+	}
+
+	export function assert(b: boolean) {
+		
 	}
 	
 }
