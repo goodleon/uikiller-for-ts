@@ -264,7 +264,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 568.89,
+      "width": 711.11,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -315,8 +315,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "这个范例演示了节点名“$”的用法",
-    "_N$string": "这个范例演示了节点名“$”的用法",
+    "_string": "这个范例演示了节点名“$”的用法, 可滚动",
+    "_N$string": "这个范例演示了节点名“$”的用法, 可滚动",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -617,7 +617,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 412,
-      "height": 204
+      "height": 304
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6216,8 +6216,8 @@
     "_alignFlags": 45,
     "_left": 0,
     "_right": 0,
-    "_top": 0,
-    "_bottom": 0,
+    "_top": -50,
+    "_bottom": -50,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,

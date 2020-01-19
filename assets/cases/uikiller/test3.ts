@@ -15,6 +15,7 @@ export default class Test3 extends Thor {
             //节点下的节点用Name就可以访问，但是Label没“_”开头，不能用$访问节点下的组件
             node.num.getComponent(cc.Label).string = i.toString();
         }
+        this._logLabel.$Label.string = `有${this._content.childrenCount} 个节点`;
     }
 
     _onImageTouchEnd(sender) { // $ 同类型, _image$1,_image$2, _image$3,
