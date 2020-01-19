@@ -10,7 +10,7 @@ export default class Test3 extends Thor {
     onLoad() {
         for(let i = 1; i <= this._content.childrenCount; i++) {
             let name = '_image' + i;
-            cc.log('wcx0119 name=' + name)
+            cc.log(`wcx0119 name=${name}`)
             let node = this[name];
             //节点下的节点用Name就可以访问，但是Label没“_”开头，不能用$访问节点下的组件
             node.num.getComponent(cc.Label).string = i.toString();
