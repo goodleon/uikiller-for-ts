@@ -21,7 +21,7 @@
   "packageName": "org.cocos2d.killers",
   "privateKey": "",
   "renderMode": "0",
-  "startScene": "77b38494-0ecb-432b-855c-405cf851cb8f",
+  "startScene": "34887d46-59ed-461c-8a7a-87e6d9d7a9ae",
   "title": "killers",
   "webOrientation": "auto",
   "wechatgame": {
@@ -29,5 +29,26 @@
     "orientation": "portrait"
   },
   "xxteaKey": "2da5d1ca-e102-42",
-  "zipCompressJs": true
+  "zipCompressJs": true,
+  "fb-instant-games": {},
+  "android": {
+    "packageName": "org.cocos2d.killers"
+  },
+  "ios": {
+    "packageName": "org.cocos2d.killers"
+  },
+  "mac": {
+    "packageName": "org.cocos2d.killers"
+  },
+  "win32": {},
+  "android-instant": {
+    "REMOTE_SERVER_ROOT": "",
+    "host": "",
+    "packageName": "org.cocos2d.killers",
+    "pathPattern": "",
+    "recordPath": "",
+    "scheme": "https",
+    "skipRecord": false
+  },
+  "appBundle": false
 }

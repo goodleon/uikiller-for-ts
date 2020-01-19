@@ -1,5 +1,6 @@
 import Thor from './uikiller/Thor'
-const { ccclass, property } = cc._decorator;
+
+const {ccclass, property} = cc._decorator;
 
 const SCENE_INFO = {
     test1: '基础用法：节点、事件绑定',
@@ -17,15 +18,15 @@ const SCENE_INFO = {
 
 @ccclass
 export default class TestScene extends Thor {
-
     @property(cc.Prefab)
     listItem = null;
+    private _content: any;
 
     onLoad() {
-        
-        let games = cc.game._sceneInfos.map((sceneInfo,index) => {
+        let games = cc.game._sceneInfos.map((sceneInfo, index) => {
             let name = cc.path.basename(sceneInfo.url, '.fire');
-            return { name, title: SCENE_INFO[name] || name }; 
+            cc.log('wcx0119 name=' + name);
+            return {name, title: SCENE_INFO[name] || name};
         }).filter(item => item.name !== 'TestScene');
 
         games.forEach((item) => {
@@ -37,13 +38,11 @@ export default class TestScene extends Thor {
 
             listItem.getComponent(cc.Label).string = item.title;
         });
-        
-        
+
+
         if (!CC_EDITOR) {
             let backNode = cc.find('back');
             cc.game.addPersistRootNode(backNode);
         }
-        
-    },
-
-});
+    }
+}
