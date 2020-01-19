@@ -1,7 +1,7 @@
 import Thor from '../../uikiller/Thor';
 
 const {ccclass} = cc._decorator;
-
+// UIKillerTouchSound
 @ccclass
 export default class Test6 extends Thor {
     _button3: cc.Node = null;

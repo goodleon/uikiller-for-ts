@@ -14,6 +14,7 @@ export default class Test7 extends Thor {
     _onButtonTouchEnd(sender) {
         this._log.$Label.string = `你点击了${sender.$}`;
         this._number.$Label.string += sender.$;
+
         let i = this.random(8, 1);
         let button = this[`_button${i}`];
         let pt = this._stencil.parent.convertToNodeSpaceAR(button.parent.convertToWorldSpaceAR(button.position));

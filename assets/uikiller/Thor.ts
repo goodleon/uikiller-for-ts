@@ -14,13 +14,13 @@ export default class Thor extends cc.Component {
         this.bindHammer();
     }
 
-    getOptions() {
+    getOptions() { // @ 过滤器
         return {
             debug: false
         }
     }
 
-    bindHammer() {
+    bindHammer() { // 绑定 锤子
         if (this._bindHammer) {
             return;
         }
