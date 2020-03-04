@@ -186,7 +186,7 @@
       "array": [
         0,
         0,
-        418.2902700278839,
+        523.079343885801,
         0,
         0,
         0,
@@ -670,7 +670,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 960,
-      "height": 130
+      "height": 5110
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -713,7 +713,7 @@
     "node": {
       "__id__": 13
     },
-    "_enabled": true,
+    "_enabled": false,
     "_layoutSize": {
       "__type__": "cc.Size",
       "width": 960,
@@ -1029,7 +1029,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 520,
+      "width": 540,
       "height": 60
     },
     "_anchorPoint": {
@@ -1091,14 +1091,14 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 216,
+      "g": 203,
+      "b": 49,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 130,
+      "width": 150,
       "height": 40
     },
     "_anchorPoint": {
@@ -1160,14 +1160,14 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 230,
-      "g": 230,
-      "b": 230,
+      "r": 173,
+      "g": 112,
+      "b": 84,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 130,
+      "width": 150,
       "height": 40
     },
     "_anchorPoint": {
@@ -1526,7 +1526,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -45,
+        -35,
         0,
         0,
         0,
@@ -1576,9 +1576,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 230,
-      "g": 230,
-      "b": 230,
+      "r": 119,
+      "g": 55,
+      "b": 55,
       "a": 255
     },
     "_contentSize": {
@@ -1942,7 +1942,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        90,
+        100,
         0,
         0,
         0,
@@ -2358,7 +2358,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        210,
+        220,
         0,
         0,
         0,
@@ -2528,9 +2528,9 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "节点快照",
-    "_N$string": "节点快照",
-    "_fontSize": 20,
+    "_string": "节点快照(分桢)",
+    "_N$string": "节点快照(分桢)",
+    "_fontSize": 15,
     "_lineHeight": 40,
     "_enableWrapText": false,
     "_N$file": null,
@@ -2740,7 +2740,7 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 520,
+      "width": 540,
       "height": 60
     },
     "_resize": 1,
@@ -2774,8 +2774,8 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 40,
-    "_left": 220,
-    "_right": 220,
+    "_left": 210,
+    "_right": 210,
     "_top": 0,
     "_bottom": 0,
     "_verticalCenter": 0,

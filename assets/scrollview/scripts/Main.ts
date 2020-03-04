@@ -46,29 +46,53 @@ export default class Main extends Thor {
 
   // LIFE-CYCLE CALLBACKS:
 
-  start() {
-    //修改调试信息文本颜色
-    // cc.profiler.setFpsLabelColor(true, { r: 255, g: 0, b: 0, a: 255 });
-    this.reuseNodeLoadList();
+  // start() {
+  //   //修改调试信息文本颜色
+  //   // cc.profiler.setFpsLabelColor(true, { r: 255, g: 0, b: 0, a: 255 });
+  // }
+
+  async start () {
+    // init logic
+    // this.label.string = this.text;
+
+     let itemp = await this.testAsync();
+      cc.log('wcx0304 async itemp=' + itemp);
   }
 
-  //普通列表加载
+  async testAsync() : Promise<string> {
+    return new Promise<string>((resolve, reject)=>{
+      setTimeout(() => {
+        resolve("liang miao yi hou ");
+      }, 2000);
+    });
+
+
+  // https://forum.cocos.org/t/cocos-creator-async-await/56287
+
+  /**
+   * 普通列表加载- 就直接creator templet了, 比较简单
+   * 一次new出50个, 性能差
+   */
   normalListLoading() {
     this.scrollview.content.destroyAllChildren();
     this.scheduleOnce(() => {
       this.scrollview.content.getComponent(cc.Layout).enabled = true;
       this.scrollview.content.getComponent(cc.Layout).type = cc.Layout.Type.VERTICAL;
+
       for (let i = 0; i < this.totalCount; i++) {
         let itemNode = cc.instantiate(this.itemTemplet);
         this.scrollview.content.addChild(itemNode);
       }
+
       this.scheduleOnce(() => {
         this.itemCountLabel.string = `总需浏览数： ${this.totalCount}，实际节点数： ${this.scrollview.content.childrenCount}`;
-      }, 0.02);
+      }, 0);
     })
   }
 
-  //普通背包加载
+  /**
+   * 普通背包加载- 一次new出50个, 性能差
+   */
   normalBackpackLoading() {
     this.scrollview.content.destroyAllChildren();
     this.scheduleOnce(() => {
@@ -81,26 +105,31 @@ export default class Main extends Thor {
       this.scheduleOnce(() => {
         this.itemCountLabel.string = `总需浏览数： ${this.totalCount}，实际节点数： ${this.scrollview.content.childrenCount}`;
       }, 0);
-    }, 0.02)
+    }, 0)
   }
 
-  //复用节点加载列表
+  /**
+   * 复用节点加载列表
+   */
   reuseNodeLoadList() {
     this.scrollview.content.destroyAllChildren();
     this.scheduleOnce(() => {
       this.scrollview.content.getComponent(cc.Layout).enabled = false;
       this.scrollview.node.getComponent("ListViewCtrl").init();
-    }, 0.02)
+    }, 0)
   }
 
   //分帧加载与节点复用
   async frameLoadingAndNodeReuse() {
     this.scrollview.content.destroyAllChildren();
-    this.scrollview.content.getComponent(cc.Layout).enabled = true;
-    this.scrollview.content.getComponent(cc.Layout).type = cc.Layout.Type.GRID;
+
+    this.scrollview.content.getComponent(cc.Layout).enabled = true; // 表示该组件自身是否启用
+    this.scrollview.content.getComponent(cc.Layout).type = cc.Layout.Type.GRID; // 布局
+
     let itemNode = cc.instantiate(this.item2Templet);
     itemNode.group = "Item";
-    this.node.addChild(itemNode);
+
+    this.node.addChild(itemNode, 1024);
     await this.executePreFrame(this._getItemGenerator(itemNode, this.totalCount), 1);
   }
 
@@ -149,10 +178,18 @@ export default class Main extends Thor {
   renderTextureItem(itemNode: cc.Node, i) {
     itemNode.getChildByName("title").getComponent(cc.Label).string = "cocos_" + i;
     this.createCanvas(itemNode);
-    var img = this.createImg();
-    this.addItem(img);
+    if(cc.sys.isBrowser){
+      let img = this.createImg();
+      this.addItem(img);
+    } else {
+      this.addItem(null);
+    }
   }
 
+  /**
+   * 分针加载,对特殊item的操作
+   * @param item
+   */
   init(item: cc.Node) {
     let texture = new cc.RenderTexture();
     if (typeof cc.game['_renderContext'] !== 'undefined') {
@@ -202,16 +239,21 @@ export default class Main extends Thor {
 
   // show on the canvas
   addItem(img) {
-    let texture = new cc.Texture2D();
-    texture.initWithElement(img);
+    let node = null;
+    if (typeof img !== null) {
+      let texture = new cc.Texture2D();
+      texture.initWithElement(img);
 
-    let spriteFrame = new cc.SpriteFrame();
-    spriteFrame.setTexture(texture);
+      let spriteFrame = new cc.SpriteFrame();
+      spriteFrame.setTexture(texture);
 
-    let node = new cc.Node();
-    let sprite = node.addComponent(cc.Sprite);
-    sprite.spriteFrame = spriteFrame;
-
+      node = new cc.Node();
+      let sprite = node.addComponent(cc.Sprite);
+      sprite.spriteFrame = spriteFrame;
+    } else {
+      node = new cc.Node();
+      let sprite = node.addComponent(cc.Sprite);
+    }
     node.parent = this.scrollview.content;
     this.itemCountLabel.string = `总需浏览数： ${this.totalCount}，实际节点数： ${this.scrollview.content.childrenCount}`;
   }

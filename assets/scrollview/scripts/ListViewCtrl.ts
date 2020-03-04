@@ -34,22 +34,27 @@ export default class ListViewCtrl extends Thor {
   items: cc.Node[] = [];
 
   updateTimer: number = 0;
-
+  // 最小时间间隔
   updateInterval: number = 0.1;
 
+  // 最后一个X
   lastContentPosX: number = 0;
 
+  // 最后一个Y
   lastContentPosY: number = 0;
 
   _bufferZone: number = 0; //when item is away from bufferZone, we relocate it
+  // 计算出最少可以满足需求的生成个数
   _spawnCount: number = 0; // how many items we actually spawn
   _totalCount: number = 0; // how many items we need for the whole list
 
   onLoad() {
     this._bufferZone = this.scrollView.node.height;
     cc.log('wcx0304 onLoad this.scrollView.node.height=' + this.scrollView.node.height)
+
     this.content.anchorX = 0.5;
     this.content.anchorY = 1;
+
     if (this.scrollView.horizontal) { // 横向
       this._bufferZone = this.scrollView.node.width;
       this.content.anchorX = 0;
@@ -69,9 +74,9 @@ export default class ListViewCtrl extends Thor {
 
     this._totalCount = this.itemCount;
 
-    this._spawnCount = Math.floor(this._bufferZone / (this.prefabCellHeight + this.spacing)) + 4;
+    this._spawnCount = Math.floor(this._bufferZone / (this.prefabCellHeight + this.spacing)) + 3;
     if (this.scrollView.horizontal) {
-      this._spawnCount = Math.floor(this._bufferZone / (this.prefabCellWidth + this.spacing)) + 4;
+      this._spawnCount = Math.floor(this._bufferZone / (this.prefabCellWidth + this.spacing)) + 3;
     }
 
     if (this._spawnCount > this._totalCount) {
@@ -83,6 +88,7 @@ export default class ListViewCtrl extends Thor {
     } else if (this.scrollView.horizontal) {
       this.content.width = this._totalCount * (this.prefabCellWidth + this.spacing) + this.spacing; // get total content width
     }
+    // 一次生成最少个数的, 所有item
     for (let i = 0; i < this._spawnCount; ++i) { // spawn items, we only need to do this once
       let item = cc.instantiate(this.prefabCell);
       this.content.addChild(item);
@@ -99,19 +105,31 @@ export default class ListViewCtrl extends Thor {
     }, 0);
   }
 
+  /**
+   * 计算每个item的坐标
+   * @param item
+   */
   getPositionInView(item) { // get item position in scrollview's node space
-    let worldPos = item.parent.convertToWorldSpaceAR(item.position);
-    let viewPos = this.scrollView.node.convertToNodeSpaceAR(worldPos);
-    return viewPos;
+    if (item.parent) {
+      let worldPos = item.parent.convertToWorldSpaceAR(item.position);
+      let viewPos = this.scrollView.node.convertToNodeSpaceAR(worldPos);
+      return viewPos;
+    }
+    // 出错了,
+    return cc.v2(0, 0);
   }
 
   update(dt) {
+    if (this.items.length <= 0) { // 性能
+      return;
+    }
     this.updateTimer += dt;
     if (this.updateTimer < this.updateInterval) return; // we don't need to do the math every frame
+
     this.updateTimer = 0;
     let items = this.items;
     let buffer = this._bufferZone;
-    if (this.scrollView.vertical) {
+    if (this.scrollView.vertical) { // 是否开启垂直滚动
       let isDown = this.scrollView.content.y < this.lastContentPosY; // scrolling direction
       let offset = (this.prefabCellHeight + this.spacing) * items.length;
       for (let i = 0; i < items.length; ++i) {
@@ -130,7 +148,7 @@ export default class ListViewCtrl extends Thor {
       }
       // update lastContentPosY
       this.lastContentPosY = this.scrollView.content.y;
-    } else if (this.scrollView.horizontal) {
+    } else if (this.scrollView.horizontal) { // 是否开启水平滚动
       let isRight = this.scrollView.content.x > this.lastContentPosX; // scrolling direction
       let offset = (this.prefabCellWidth + this.spacing) * items.length;
       for (let i = 0; i < items.length; ++i) {
