@@ -63,12 +63,11 @@ export default class Main extends Thor {
     cc.log('wcx0304 this.iFoodEditbox.placeholder=' + this.iFoodEditbox.placeholder) // 提示符
     cc.log('foodIndex = ' + JSON.stringify(foodIndex))
 
-    // let aa = {};
     let len = 0;
     for (let key in foodIndex) {
       len++;
     }
-    cc.log('len = ' + len)
+    cc.log('食材个数 = ' + len)
   }
 
   start() {
@@ -150,17 +149,82 @@ export default class Main extends Thor {
    */
   normalListLoading() {
     this.scrollview.content.destroyAllChildren();
+    // 获取所有数据
+    let allfoodsIndex = [];
+    let targetIndex = [];
+
+    for (let i = 0; i < this._Foods.length; i++) {
+      let temp = this._Foods[i];
+      let indexs = foodIndex[temp];
+      if( typeof indexs !== 'undefined'){
+        allfoodsIndex.push(parseInt(indexs))
+      }
+    }
+
+    allfoodsIndex = allfoodsIndex.sort((n1, n2)=> n1 - n2);
+
+    cc.log('allfoodsIndex = ' + JSON.stringify(allfoodsIndex));
+    if(allfoodsIndex.length >= 2){
+      for (let i = 0; i < allfoodsIndex.length - 1; i++) {
+        for (let j = i + 1; j < allfoodsIndex.length ; j++) {
+          let ok ='' + allfoodsIndex[i] + '+' + allfoodsIndex[j]
+            let a = targetIndex[ok];
+            if(typeof a != 'undefined'){
+              targetIndex.push(ok);
+            }
+        }
+
+        for(let key in foodKe){
+          let keyarr = key.split('+');
+          for(let k = 0 ;k<keyarr.length; k++ ){
+            if(parseInt(allfoodsIndex[i]) == parseInt(keyarr[k])){
+              targetIndex.push(key);
+              break;
+            }
+          }
+        }
+      }
+    } else if (allfoodsIndex.length == 1) {
+      for(let key in foodKe){
+        let keyarr = key.split('+');
+        for(let k = 0 ;k<keyarr.length; k++ ){
+          if(parseInt(allfoodsIndex[0]) == parseInt(keyarr[k])){
+            targetIndex.push(key);
+            break;
+          }
+        }
+      }
+    }
+
+    targetIndex = this.uniqueMap(targetIndex);
+    cc.log('targetIndex = ' + JSON.stringify(targetIndex));
+
     this.scheduleOnce(() => {
       this.scrollview.content.getComponent(cc.Layout).enabled = true;
       this.scrollview.content.getComponent(cc.Layout).type = cc.Layout.Type.VERTICAL;
 
-      for (let i = 0; i < this._Foods.length; i++) {
+      for (let i = 0; i < targetIndex.length; i++) {
         let itemNode = cc.instantiate(this.itemTemplet);
+        let temparr = targetIndex[i].split('+');
+        let name1 = ''
+        let name2 = ''
+
+        for (let key in foodIndex){
+          if(temparr[0] == foodIndex[key]){
+            name1 = key;
+          } else if(temparr[1] == foodIndex[key]){
+            name2 = key;
+          }
+        }
+
+        itemNode.getChildByName('foodname1').getComponent(cc.Label).string = name1;
+        itemNode.getChildByName('foodname2').getComponent(cc.Label).string = name2;
+        itemNode.getChildByName('nickname_lbl').getComponent(cc.Label).string = foodKe['' + targetIndex[i]];
         this.scrollview.content.addChild(itemNode);
       }
 
       this.scheduleOnce(() => {
-        this.itemCountLabel.string = `总食材数： ${this._Foods.length}`;
+        this.itemCountLabel.string = `总食材数： ${allfoodsIndex.length}`;
       }, 0);
     })
   }
