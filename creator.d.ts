@@ -3108,6 +3108,7 @@ declare namespace cc {
 		zIndex: number;
 		tagIndex: any;
 		$Label: any;
+		$Editbox: any;
 		/**
 		
 		@param name name 
