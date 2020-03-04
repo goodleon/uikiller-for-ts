@@ -9,7 +9,7 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import Thor from '../../uikiller/Thor';
-
+import {foodIndex,foodYi,foodKe} from './food'
 const {ccclass, property} = cc._decorator;
 
 @ccclass
@@ -39,6 +39,15 @@ export default class Main extends Thor {
   @property(cc.Integer)
   totalCount: number = 0;
 
+  private _btnAdd: any; // 添加一种食物
+    private _btnClear: any; // 清空
+  // public iEditbox: any; // 菜名输入框
+  private _Foods : Array<string> = [];
+
+  // 食材名, 输入框
+  @property(cc.EditBox)
+  iFoodEditbox: cc.EditBox = null;
+
   //
   texture: cc.RenderTexture = null;
 
@@ -46,28 +55,94 @@ export default class Main extends Thor {
 
   // LIFE-CYCLE CALLBACKS:
 
-  // start() {
-  //   //修改调试信息文本颜色
-  //   // cc.profiler.setFpsLabelColor(true, { r: 255, g: 0, b: 0, a: 255 });
-  // }
+  onLoad() {
+    cc.log('wcx0304 _btnOK.name =' + this._btnAdd.name); //
 
-  async start () {
-    // init logic
-    // this.label.string = this.text;
+    cc.log('wcx0304 iFoodEditbox.name =' + this.iFoodEditbox.name); // 组件名
+    cc.log('wcx0304 this.iFoodEditbox.string=' + this.iFoodEditbox.string); // 文本
+    cc.log('wcx0304 this.iFoodEditbox.placeholder=' + this.iFoodEditbox.placeholder) // 提示符
+    cc.log('foodIndex = ' + JSON.stringify(foodIndex))
 
-     let itemp = await this.testAsync();
-      cc.log('wcx0304 async itemp=' + itemp);
+    // let aa = {};
+    let len = 0;
+    for (let key in foodIndex) {
+      len++;
+    }
+    cc.log('len = ' + len)
   }
 
-  async testAsync() : Promise<string> {
-    return new Promise<string>((resolve, reject)=>{
-      setTimeout(() => {
-        resolve("liang miao yi hou ");
-      }, 2000);
-    });
+  start() {
+    //修改调试信息文本颜色
+    // cc.profiler.setFpsLabelColor(true, { r: 255, g: 0, b: 0, a: 255 });
+  }
+
+  /***
+   * 接受用户输入 食物名称的回调函数
+   */
+  onFoodEidtBoxBegan(){
+    cc.log('wcx0304 = onFoodEidtBoxBegan ' + this.iFoodEditbox.string);
+  }
+  onFoodEidtBoxTextChanged(){
+    if(this.iFoodEditbox.string.length >= this.iFoodEditbox.maxLength ){
+      cc.log('wcx0304 = onFoodEidtBoxTextChanged  ' + this.iFoodEditbox.string + '最大长度为' + this.iFoodEditbox.maxLength);
+    } else {
+      cc.log('wcx0304 = onFoodEidtBoxTextChanged  ' + this.iFoodEditbox.string);
+    }
+  }
+  onFoodEidtBoxDidEnded(){
+    cc.log('wcx0304 =  onFoodEidtBoxDidEnded=  ' + this.iFoodEditbox.string);
+  }
+  onFoodEidtBoxReturn(){
+    cc.log('wcx0304 = onFoodEidtBoxReturn= ' + this.iFoodEditbox.string);
+  }
 
 
-  // https://forum.cocos.org/t/cocos-creator-async-await/56287
+  // Map去重复
+  uniqueMap(arr) {
+    const res = new Map();
+    return arr.filter((a) => !res.has(a) && res.set(a, 1))
+  }
+  _onBtnClearTouchEnd() {
+      this._Foods = [];
+      this.normalListLoading();
+  }
+  /**
+   * 食物确定按钮
+   */
+  _onBtnAddTouchEnd() {
+    if(this.iFoodEditbox.string.length <= 0){
+      this.itemCountLabel.string = '确定按钮被点击了，请输入,食物名称！';
+      cc.log('wcx0304 =' + '确定按钮被点击了，请输入,食物名称！');
+    }
+    else {
+      cc.log('wcx0304 = _onBtnAddTouchEnd= ' + this.iFoodEditbox.string);
+      let splitted = this.iFoodEditbox.string.split(' ');
+      let temp : Array<string> = [];
+      temp = this._Foods.concat(splitted);
+      cc.log('wcx0304 = temp= ' + temp);
+
+      temp = this.uniqueMap(temp);
+      cc.log('wcx0304 去重后 = temp= ' + temp + ' this._Foods=' + this._Foods);
+
+        let equal = false;
+      if (temp.length == this._Foods.length) {
+          for (let  i = 0; i< temp.length  ; i++){
+              let index = this._Foods.indexOf(temp[i]);
+                if(index == -1){
+                  equal = false;
+                  break
+                }
+          }
+          equal = true;
+      }
+
+        if(!equal){
+            this._Foods = temp;
+            // 进行有效性判断, 清理不符合要求的数据
+            this.normalListLoading();
+        }
+    }
+  }
 
   /**
    * 普通列表加载- 就直接creator templet了, 比较简单
@@ -79,13 +154,13 @@ export default class Main extends Thor {
       this.scrollview.content.getComponent(cc.Layout).enabled = true;
       this.scrollview.content.getComponent(cc.Layout).type = cc.Layout.Type.VERTICAL;
 
-      for (let i = 0; i < this.totalCount; i++) {
+      for (let i = 0; i < this._Foods.length; i++) {
         let itemNode = cc.instantiate(this.itemTemplet);
         this.scrollview.content.addChild(itemNode);
       }
 
       this.scheduleOnce(() => {
-        this.itemCountLabel.string = `总需浏览数： ${this.totalCount}，实际节点数： ${this.scrollview.content.childrenCount}`;
+        this.itemCountLabel.string = `总食材数： ${this._Foods.length}`;
       }, 0);
     })
   }
