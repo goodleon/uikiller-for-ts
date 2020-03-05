@@ -5,7 +5,8 @@
       "dom",
       "es5",
       "es2015.promise",
-      "es2015.generator"
+      "es2015.generator",
+      "es2015.collection"
     ],
     "target": "es5",
     "experimentalDecorators": true,
